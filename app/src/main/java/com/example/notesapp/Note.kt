@@ -1,3 +1,5 @@
 package com.example.notesapp
 
-data class Note(val title: String, val description: String)
+import java.io.Serializable
+
+data class Note(val title: String, val description: String, val date: String) : Serializable
