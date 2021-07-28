@@ -19,8 +19,10 @@
         android:layout_marginRight="40dp"
         android:layout_marginBottom="40dp"
         android:clickable="true"
+        app:backgroundTint="#3A8A95"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="#FFFFFF"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
