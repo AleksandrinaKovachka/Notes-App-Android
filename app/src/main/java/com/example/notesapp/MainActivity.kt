@@ -3,6 +3,7 @@ package com.example.notesapp
 import android.content.Intent
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
+import android.util.Log
 import android.view.View
 import android.widget.Adapter
 import android.widget.EditText
@@ -12,10 +13,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import java.io.File
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity(), CellClickListener {
-    private val notes = ArrayList<Note>()
+    private var notes = ArrayList<Note>()
+    private lateinit var adapter: CustomAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,16 +48,23 @@ class MainActivity : AppCompatActivity(), CellClickListener {
         //val notes = ArrayList<Note>()
 
         //adding some dummy data to the list
-        notes.add(Note("Test1", "Test again 1 ghsjdnkjbjbkjsbhjdcbhnlsxcn hsdjnvhjdlkjjkkd uhdbsbedjbkd", "01.01.21, 12:34"))
-        notes.add(Note("Test2", "Test again 2", "01.01.21, 12:34"))
-        notes.add(Note("Test3", "Test again 3", "01.01.21, 12:34"))
-        notes.add(Note("Test4", "Test again 4", "01.01.21, 12:34"))
+        Log.i("Activity", "main")
+        notes = readData() as ArrayList<Note>
+        //notes = arrayListOf()
 
-        //creating our adapter
-        val adapter = CustomAdapter(this, notes, this)
+        adapter = CustomAdapter(this, notes, this)
 
         //now adding the adapter to recyclerview
         recyclerView.adapter = adapter
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.i("Activity", "new note")
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0) {
+            notes.add(data?.getSerializableExtra("new_note") as Note)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onCellClickListener(data: Note) {
@@ -63,6 +75,19 @@ class MainActivity : AppCompatActivity(), CellClickListener {
         startActivity(intent)
     }
 
+    private fun readData(): MutableList<Note> {
+        val readFile: File = File(this.filesDir, "SavedUserNotes")
+        if (readFile.exists()) {
+            val bytesData = readFile.readBytes()
+            val stringData = String(bytesData)
+
+            Log.i("Activity", stringData)
+            return Json.decodeFromString(stringData)
+        }
+
+        print("Not exist file")
+        return mutableListOf()
+    }
 
 }
 
