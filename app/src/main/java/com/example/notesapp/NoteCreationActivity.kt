@@ -41,9 +41,9 @@ class NoteCreationActivity : AppCompatActivity() {
         //save data
         saveNote(note)
 
-        val intent = Intent()
         intent.putExtra("new_note", note as Serializable)
-        setResult(0, intent)
+        setResult(1, intent)
+
         finish()
     }
 
