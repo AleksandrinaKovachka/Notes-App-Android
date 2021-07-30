@@ -1,7 +1,6 @@
 package com.example.notesapp
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,15 +13,12 @@ import java.io.File
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NoteCreationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_creation)
-
-        Log.i("Activity", "create")
     }
 
     fun createNote(view: View) {
@@ -48,7 +44,6 @@ class NoteCreationActivity : AppCompatActivity() {
     }
 
     fun cancelNote(view: View) {
-        Log.i("Activity", "cancel button")
         finish()
     }
 
@@ -60,27 +55,21 @@ class NoteCreationActivity : AppCompatActivity() {
         notes.add(note)
 
         //save all data
-        //val dataList = listOf(notes)
         val jsonList = Json.encodeToString(notes)
 
         this.openFileOutput("SavedUserNotes", Context.MODE_PRIVATE).use {
             it.write(jsonList.toByteArray())
-            Log.i("Activity", "save new note")
-            Log.i("Activity", jsonList)
         }
     }
     private fun readData(): MutableList<Note> {
-        val readFile: File = File(this.filesDir, "SavedUserNotes")
+        val readFile = File(this.filesDir, "SavedUserNotes")
         if (readFile.exists()) {
-            Log.i("Activity", "exist file")
             val bytesData = readFile.readBytes()
             val stringData = String(bytesData)
 
-            Log.i("Activity", stringData)
             return Json.decodeFromString(stringData)
         }
 
-        Log.i("Activity", "no exist")
         return mutableListOf()
     }
 }
