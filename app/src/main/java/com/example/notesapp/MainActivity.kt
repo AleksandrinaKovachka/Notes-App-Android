@@ -1,5 +1,6 @@
 package com.example.notesapp
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity(), CellClickListener {
         setContentView(R.layout.activity_main)
 
         resultLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == 1) {
+            if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 notes.add(data?.getSerializableExtra("new_note") as Note)
                 adapter.notifyDataSetChanged()

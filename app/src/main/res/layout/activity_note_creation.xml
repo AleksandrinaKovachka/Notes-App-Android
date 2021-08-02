@@ -15,7 +15,7 @@
         android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Edit name of note"
+        android:hint="Edit name of note"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,7 +28,7 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Edit note description"
+        android:hint="Edit note description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTitle" />
 
@@ -39,8 +39,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginBottom="40dp"
-        android:onClick="createNote"
-        android:text="Create"
+        android:text="Creatе"
         app:backgroundTint="#3A8A95"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -52,7 +51,6 @@
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="40dp"
-        android:onClick="cancelNote"
         android:text="Cancel"
         app:backgroundTint="#3A8A95"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -15,11 +15,10 @@ class CustomAdapter(private val context: Context, private val noteList: ArrayLis
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindItems(noteList[position])
-
-        holder.itemView.setOnClickListener {
-            cellClickListener.onCellClickListener(noteList[position])
-        }
+        val note = noteList[position]
+        holder.titleTextView.text = note.title
+        holder.descriptionTextView.text = note.description
+        holder.dateTextView.text = note.description
     }
 
     override fun getItemCount(): Int {
@@ -28,13 +27,8 @@ class CustomAdapter(private val context: Context, private val noteList: ArrayLis
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindItems(note: Note) {
-            val textViewTitle = itemView.findViewById(R.id.textViewTitle) as TextView
-            val textViewDescription  = itemView.findViewById(R.id.textViewDescription) as TextView
-            val textViewDate = itemView.findViewById(R.id.textViewDate) as TextView
-            textViewTitle.text = note.title
-            textViewDescription.text = note.description
-            textViewDate.text = note.date
-        }
+        val titleTextView : TextView = itemView.findViewById(R.id.textViewTitle)
+        val descriptionTextView : TextView = itemView.findViewById(R.id.textViewDescription)
+        val dateTextView : TextView = itemView.findViewById(R.id.textViewDate)
     }
 }

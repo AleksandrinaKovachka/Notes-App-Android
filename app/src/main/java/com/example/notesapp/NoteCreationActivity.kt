@@ -1,11 +1,15 @@
 package com.example.notesapp
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -19,32 +23,33 @@ class NoteCreationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_creation)
-    }
 
-    fun createNote(view: View) {
-        Log.i("Activity", "create note button")
-        val editTitle = findViewById<EditText>(R.id.editTitle)
-        val title = editTitle.text.toString()
+        val cancelBtn: Button = findViewById(R.id.buttonCancel)
+        cancelBtn.setOnClickListener {
+            finish()
+        }
 
-        val editDescription = findViewById<EditText>(R.id.editDescription)
-        val description = editDescription.text.toString()
+        val createNoteBtn: Button = findViewById(R.id.buttonCreate)
+        createNoteBtn.setOnClickListener {
+            val editTitle = findViewById<EditText>(R.id.editTitle)
+            val title = editTitle.text.toString()
 
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-        val currentDate = sdf.format(Date())
+            val editDescription = findViewById<EditText>(R.id.editDescription)
+            val description = editDescription.text.toString()
 
-        val note = Note(title, description, currentDate)
+            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+            val currentDate = sdf.format(Date())
 
-        //save data
-        saveNote(note)
+            val note = Note(title, description, currentDate)
 
-        intent.putExtra("new_note", note as Serializable)
-        setResult(1, intent)
+            //save data
+            saveNote(note)
 
-        finish()
-    }
+            intent.putExtra("new_note", note as Serializable)
+            setResult(Activity.RESULT_OK, intent)
 
-    fun cancelNote(view: View) {
-        finish()
+            finish()
+        }
     }
 
     private fun saveNote(note: Note) {
