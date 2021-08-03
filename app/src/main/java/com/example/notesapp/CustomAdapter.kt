@@ -18,7 +18,11 @@ class CustomAdapter(private val context: Context, private val noteList: ArrayLis
         val note = noteList[position]
         holder.titleTextView.text = note.title
         holder.descriptionTextView.text = note.description
-        holder.dateTextView.text = note.description
+        holder.dateTextView.text = note.date
+
+        holder.itemView.setOnClickListener {
+            cellClickListener.onCellClickListener(noteList[position])
+        }
     }
 
     override fun getItemCount(): Int {

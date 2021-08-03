@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">NotesApp</string>
+    <string name="create_note">Create Note</string>
+    <string name="edit_name_of_note">Edit name of note</string>
+    <string name="edit_note_description">Edit note description</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
 </resources>

@@ -53,10 +53,10 @@ class MainActivity : AppCompatActivity(), CellClickListener {
     }
 
     override fun onCellClickListener(data: Note) {
+        Log.i("Activity:", "clicked cell")
         val intent = Intent(this, NoteDataActivity::class.java).apply {
             putExtra("note_data", data as Serializable)
         }
-
         startActivity(intent)
     }
 
