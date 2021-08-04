@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.example.notesapp.database.NoteData
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -40,10 +41,10 @@ class NoteCreationActivity : AppCompatActivity() {
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate = sdf.format(Date())
 
-            val note = Note(title, description, currentDate)
+            val note = Note(title, description, currentDate) //Note(title, description, currentDate)
 
             //save data
-            saveNote(note)
+            //saveNote(note)
 
             intent.putExtra("new_note", note as Serializable)
             setResult(Activity.RESULT_OK, intent)
