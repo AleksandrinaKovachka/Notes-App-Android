@@ -3,28 +3,25 @@ package com.example.notesapp
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.notesapp.database.NoteData
 import com.example.notesapp.viewmodels.NoteListViewModel
 import com.example.notesapp.viewmodels.NoteListViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import java.io.File
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     private val noteViewModel: NoteListViewModel by viewModels {
-        NoteListViewModelFactory((application as NoteApplication).repository)
+        NoteListViewModelFactory((application as NoteApplication).database.noteDao())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,26 +29,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val adapter = NoteAdapter()
+        val adapter = NoteAdapter {
+            val note = Note(it.noteTitle, it.noteDescription, it.noteDate)
+
+            val intent = Intent(this, NoteDataActivity::class.java).apply {
+                putExtra("note_data", note as Serializable)
+            }
+
+            startActivity(intent)
+        }
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        noteViewModel.allNotes.observe(this, { notes ->
-            // Update the cached copy of the words in the adapter.
-            notes.let { adapter.submitList(it) }
-        })
-//        noteViewModel.allNotes.observe(owner = this) { notes ->
-//            // Update the cached copy of the words in the adapter.
-//            notes.let { adapter.submitList(it) }
-//        }
+        lifecycle.coroutineScope.launch {
+            noteViewModel.allNotes.collect {
+                adapter.submitList(it)
+            }
+        }
 
         resultLauncher = registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
                 val note = data?.getSerializableExtra("new_note") as Note
-                val noteDB = NoteData(1, note.title, note.description, note.date)
 
-                noteViewModel.insert(noteDB)
+                noteViewModel.insert(note.title, note.description, note.date)
                 adapter.notifyDataSetChanged()
             }
         }

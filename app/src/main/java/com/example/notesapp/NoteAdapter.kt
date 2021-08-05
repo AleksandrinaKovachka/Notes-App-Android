@@ -9,26 +9,29 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notesapp.database.NoteData
 
-class NoteAdapter : ListAdapter<NoteData, NoteAdapter.NoteViewHolder>(NotesComparator()) {
+class NoteAdapter(private val onItemClick: (NoteData) -> Unit) : ListAdapter<NoteData, NoteAdapter.NoteViewHolder>(NotesComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
+
         val current = getItem(position)
-        holder.bind(current.noteTitle)
-        //other
+
+        holder.titleTextView.text = current.noteTitle
+        holder.descriptionTextView.text = current.noteDescription
+        holder.dateTextView.text = current.noteDate
+
+        holder.itemView.setOnClickListener {
+            onItemClick(current)
+        }
     }
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val noteItemView: TextView = itemView.findViewById(R.id.textViewTitle)
-        //other
-
-        fun bind(text: String?) {
-            noteItemView.text = text
-            //other
-        }
+        val titleTextView: TextView = itemView.findViewById(R.id.textViewTitle)
+        val descriptionTextView: TextView = itemView.findViewById(R.id.textViewDescription)
+        val dateTextView: TextView = itemView.findViewById(R.id.textViewDate)
 
         companion object {
             fun create(parent: ViewGroup): NoteViewHolder {
@@ -41,11 +44,11 @@ class NoteAdapter : ListAdapter<NoteData, NoteAdapter.NoteViewHolder>(NotesCompa
 
     class NotesComparator : DiffUtil.ItemCallback<NoteData>() {
         override fun areItemsTheSame(oldItem: NoteData, newItem: NoteData): Boolean {
-            return oldItem === newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: NoteData, newItem: NoteData): Boolean {
-            return oldItem.noteTitle == newItem.noteTitle
+            return oldItem.noteTitle == newItem.noteTitle && oldItem.noteDescription == newItem.noteDescription
         }
     }
 }
