@@ -2,7 +2,6 @@ package com.example.notesapp
 
 import android.app.Application
 import com.example.notesapp.database.AppDatabase
-import com.example.notesapp.repository.NoteRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 

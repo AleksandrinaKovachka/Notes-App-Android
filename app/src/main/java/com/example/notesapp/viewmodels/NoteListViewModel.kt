@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.notesapp.database.NoteData
-import com.example.notesapp.repository.NoteRepository
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.notesapp.database.NoteDao
