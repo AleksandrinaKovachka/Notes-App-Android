@@ -5,8 +5,11 @@
     <string name="edit_note_description">Edit note description</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
-    <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="date">Date</string>
     <string name="change_notes_mode">Change notes mode</string>
+    <string name="title">Title</string>
+    <string name="edit_text">Edit text</string>
+    <string name="delete_note">Delete note</string>
+    <string name="confirm_changes">Confirm changes</string>
 </resources>

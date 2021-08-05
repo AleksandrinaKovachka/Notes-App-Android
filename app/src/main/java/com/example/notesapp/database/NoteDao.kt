@@ -15,5 +15,5 @@ interface NoteDao {
     suspend fun updateNoteData(noteData: NoteData)
 
     @Delete
-    suspend fun deleteNote(note: NoteData)
+    suspend fun deleteNote(noteData: NoteData)
 }

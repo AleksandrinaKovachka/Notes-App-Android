@@ -38,7 +38,10 @@ class MainActivity : AppCompatActivity() {
         val adapter = NoteAdapter {
             val note = Note(it.noteTitle, it.noteDescription, it.noteDate)
 
-            val intent = Intent(this, NoteDataActivity::class.java).apply {
+//            val intent = Intent(this, NoteDataActivity::class.java).apply {
+//                putExtra("note_data", note as Serializable)
+//            }
+            val intent = Intent(this, NoteDataModifiedActivity::class.java).apply {
                 putExtra("note_data", note as Serializable)
             }
 

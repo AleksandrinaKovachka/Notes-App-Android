@@ -16,6 +16,14 @@ class NoteListViewModel(private val noteDao: NoteDao): ViewModel() {
     fun insert(title: String, description: String, date: String) = viewModelScope.launch {
         noteDao.insertToRoomDatabase(NoteData(noteTitle = title, noteDescription = description, noteDate = date))
     }
+
+    fun update(title: String, description: String, date: String) = viewModelScope.launch {
+        noteDao.updateNoteData(NoteData(noteTitle = title, noteDescription = description, noteDate = date))
+    }
+
+    fun delete(title: String, description: String, date: String) = viewModelScope.launch {
+        noteDao.deleteNote(NoteData(noteTitle = title, noteDescription = description, noteDate = date))
+    }
 }
 
 class NoteListViewModelFactory(private val noteDao: NoteDao) : ViewModelProvider.Factory {
