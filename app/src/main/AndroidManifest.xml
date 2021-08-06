@@ -10,16 +10,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NotesApp">
-        <activity android:name=".NoteDataModifiedActivity"></activity>
-        <activity
-            android:name=".NoteCreationActivity"
+        <activity android:name=".NoteDataModifiedActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+
         </activity>
         <activity
-            android:name=".NoteDataActivity"
+            android:name=".NoteCreationActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

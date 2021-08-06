@@ -1,12 +1,10 @@
 package com.example.notesapp.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.notesapp.database.NoteData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.notesapp.database.NoteDao
+import com.example.notesapp.database.NoteData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
