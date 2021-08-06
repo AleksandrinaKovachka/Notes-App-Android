@@ -41,7 +41,7 @@ class NoteCreationActivity : AppCompatActivity() {
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate = sdf.format(Date())
 
-            val note = Note(title, description, currentDate) //Note(title, description, currentDate)
+            val note = Note(title = title, description = description, date = currentDate) //Note(title, description, currentDate)
 
             //save data
             //saveNote(note)

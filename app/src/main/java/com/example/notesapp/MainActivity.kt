@@ -36,11 +36,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = GridLayoutManager(this, 1)
 
         val adapter = NoteAdapter {
-            val note = Note(it.noteTitle, it.noteDescription, it.noteDate)
+            val note = Note(it.id, it.noteTitle, it.noteDescription, it.noteDate)
 
-//            val intent = Intent(this, NoteDataActivity::class.java).apply {
-//                putExtra("note_data", note as Serializable)
-//            }
             val intent = Intent(this, NoteDataModifiedActivity::class.java).apply {
                 putExtra("note_data", note as Serializable)
             }

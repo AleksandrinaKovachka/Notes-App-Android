@@ -8,11 +8,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.coroutineScope
 import com.example.notesapp.viewmodels.NoteListViewModel
 import com.example.notesapp.viewmodels.NoteListViewModelFactory
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,13 +43,13 @@ class NoteDataModifiedActivity : AppCompatActivity() {
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
             val currentDate = sdf.format(Date())
 
-            noteViewModel.update(titleText.text.toString(), descriptionText.text.toString(), currentDate)
+            noteViewModel.update(noteData.id, titleText.text.toString(), descriptionText.text.toString(), currentDate)
             finish()
         }
 
         val deleteBtn: ImageButton = findViewById(R.id.deleteImageButton)
         deleteBtn.setOnClickListener {
-            noteViewModel.delete(noteData.title, noteData.description, noteData.date)
+            noteViewModel.delete(noteData.id, noteData.title, noteData.description, noteData.date)
 
             finish()
         }
