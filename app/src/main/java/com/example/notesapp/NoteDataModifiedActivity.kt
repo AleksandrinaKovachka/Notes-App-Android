@@ -8,7 +8,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.notesapp.database.NoteData
 import com.example.notesapp.viewmodels.NoteListViewModel
 import com.example.notesapp.viewmodels.NoteListViewModelFactory
 import java.text.SimpleDateFormat
