@@ -1,6 +1,7 @@
 package com.example.notesapp
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
@@ -18,9 +19,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.Serializable
 
+
 class MainActivity : AppCompatActivity() {
     private var isListMode: Boolean = true
-
+    private lateinit var recyclerView: RecyclerView
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     private val noteViewModel: NoteListViewModel by viewModels {
@@ -29,19 +31,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = GridLayoutManager(this, 1)
+        recyclerView = findViewById(R.id.recyclerView)
 
+        loadRecyclerViewMode()
+
+        setupButtons()
+
+        setupAdapter()
+    }
+
+    private fun setupAdapter() {
         val adapter = NoteAdapter {
             val note = Note(it.id, it.noteTitle, it.noteDescription, it.noteDate)
-
-            val intent = Intent(this, NoteDataModifiedActivity::class.java).apply {
-                putExtra("note_data", note as Serializable)
-            }
-
-            startActivity(intent)
+            setupAdaptorConstructor(note)
         }
 
         recyclerView.adapter = adapter
@@ -61,26 +66,73 @@ class MainActivity : AppCompatActivity() {
                 adapter.notifyDataSetChanged()
             }
         }
+    }
 
-        val createBtn = findViewById<FloatingActionButton>(R.id.floatingActionButtonCreate)
-        createBtn.setOnClickListener {
-            val intent = Intent(this, NoteCreationActivity::class.java)
-            resultLauncher.launch(intent)
+    private fun setupAdaptorConstructor(note: Note) {
+        val intent = Intent(this, NoteDataModifiedActivity::class.java).apply {
+            putExtra("note_data", note as Serializable)
         }
+
+        startActivity(intent)
+    }
+
+    private fun setupButtons() {
+        val createBtn = findViewById<FloatingActionButton>(R.id.floatingActionButtonCreate)
+        createBtn.setOnClickListener { onCreateButtonClicked() }
 
         val changeModeBtn = findViewById<ImageButton>(R.id.changeModeButton)
-        changeModeBtn.setOnClickListener {
-            if (isListMode) {
-                isListMode = false
-                recyclerView.layoutManager = GridLayoutManager(this, 2)
+        changeModeBtn.setOnClickListener { listMode(changeModeBtn) }
+    }
 
-                changeModeBtn.setImageResource(R.drawable.ic_baseline_view_list_24)
-            } else {
-                isListMode = true
-                recyclerView.layoutManager = GridLayoutManager(this, 1)
+    private fun onCreateButtonClicked() {
+        val intent = Intent(this, NoteCreationActivity::class.java)
+        resultLauncher.launch(intent)
+    }
 
-                changeModeBtn.setImageResource(R.drawable.ic_baseline_grid_on_24)
-            }
+    private fun listMode(changeModeBtn: ImageButton) {
+        if (isListMode) {
+            isListMode = false
+            recyclerView.layoutManager = GridLayoutManager(this, 2)
+
+            changeModeBtn.setImageResource(R.drawable.ic_baseline_view_list_24)
+        } else {
+            isListMode = true
+            recyclerView.layoutManager = GridLayoutManager(this, 1)
+
+            changeModeBtn.setImageResource(R.drawable.ic_baseline_grid_on_24)
         }
+    }
+
+    private fun firstListMode() {
+        val changeModeBtn = findViewById<ImageButton>(R.id.changeModeButton)
+        if (isListMode) {
+            recyclerView.layoutManager = GridLayoutManager(this, 1)
+
+            changeModeBtn.setImageResource(R.drawable.ic_baseline_grid_on_24)
+        } else {
+            recyclerView.layoutManager = GridLayoutManager(this, 2)
+
+            changeModeBtn.setImageResource(R.drawable.ic_baseline_view_list_24)
+        }
+    }
+
+    private fun loadRecyclerViewMode() {
+        val preferences = this.getSharedPreferences("RecyclerView_mode", Context.MODE_PRIVATE)
+        isListMode = preferences.getBoolean("MODE_STATE", true)
+
+        firstListMode()
+    }
+
+    private fun saveRecyclerViewMode() {
+        val preferences = this.getSharedPreferences("RecyclerView_mode", Context.MODE_PRIVATE)
+        val editor = preferences.edit()
+        editor.apply {
+            putBoolean("MODE_STATE", isListMode)
+        }.apply()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        saveRecyclerViewMode()
     }
 }

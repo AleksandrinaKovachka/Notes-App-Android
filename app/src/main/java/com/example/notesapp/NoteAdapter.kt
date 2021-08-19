@@ -11,9 +11,8 @@ import com.example.notesapp.database.NoteData
 
 class NoteAdapter(private val onItemClick: (NoteData) -> Unit) : ListAdapter<NoteData, NoteAdapter.NoteViewHolder>(NotesComparator()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        return NoteViewHolder.create(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        NoteViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
@@ -43,12 +42,9 @@ class NoteAdapter(private val onItemClick: (NoteData) -> Unit) : ListAdapter<Not
     }
 
     class NotesComparator : DiffUtil.ItemCallback<NoteData>() {
-        override fun areItemsTheSame(oldItem: NoteData, newItem: NoteData): Boolean {
-            return oldItem.id == newItem.id
-        }
+        override fun areItemsTheSame(oldItem: NoteData, newItem: NoteData) = oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: NoteData, newItem: NoteData): Boolean {
-            return oldItem.noteTitle == newItem.noteTitle && oldItem.noteDescription == newItem.noteDescription
-        }
+        override fun areContentsTheSame(oldItem: NoteData, newItem: NoteData)
+            = oldItem.noteTitle == newItem.noteTitle && oldItem.noteDescription == newItem.noteDescription
     }
 }

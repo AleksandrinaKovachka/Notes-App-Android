@@ -15,28 +15,34 @@ class NoteCreationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_creation)
 
+        setupButtons()
+    }
+
+    private fun setupButtons() {
         val cancelBtn: Button = findViewById(R.id.buttonCancel)
         cancelBtn.setOnClickListener {
             finish()
         }
 
         val createNoteBtn: Button = findViewById(R.id.buttonCreate)
-        createNoteBtn.setOnClickListener {
-            val editTitle = findViewById<EditText>(R.id.editTitle)
-            val title = editTitle.text.toString()
+        createNoteBtn.setOnClickListener { onCreateNoteBtnClicked()}
+    }
 
-            val editDescription = findViewById<EditText>(R.id.editDescription)
-            val description = editDescription.text.toString()
+    private fun onCreateNoteBtnClicked() {
+        val editTitle = findViewById<EditText>(R.id.editTitle)
+        val title = editTitle.text.toString()
 
-            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-            val currentDate = sdf.format(Date())
+        val editDescription = findViewById<EditText>(R.id.editDescription)
+        val description = editDescription.text.toString()
 
-            val note = Note(title = title, description = description, date = currentDate)
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())
 
-            intent.putExtra("new_note", note as Serializable)
-            setResult(Activity.RESULT_OK, intent)
+        val note = Note(title = title, description = description, date = currentDate)
 
-            finish()
-        }
+        intent.putExtra("new_note", note as Serializable)
+        setResult(Activity.RESULT_OK, intent)
+
+        finish()
     }
 }
